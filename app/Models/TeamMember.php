@@ -10,6 +10,7 @@ use Database\Factories\TeamMemberFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
@@ -23,11 +24,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool $is_active
  * @property CarbonImmutable|null $created_at
  * @property CarbonImmutable|null $updated_at
+ * @property CarbonImmutable|null $deleted_at
  */
 class TeamMember extends Model
 {
     /** @use HasFactory<TeamMemberFactory> */
-    use FlushesContentCache, HasFactory;
+    use FlushesContentCache, HasFactory, SoftDeletes;
 
     /**
      * @var list<string>

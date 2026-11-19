@@ -25,6 +25,10 @@ final class PostDetailResource extends JsonResource
             'body' => $this->body,
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'author' => new TeamMemberResource($this->whenLoaded('author')),
+            'meta' => [
+                'title' => $this->meta_title ?? $this->title,
+                'description' => $this->meta_description ?? $this->excerpt,
+            ],
         ];
     }
 }

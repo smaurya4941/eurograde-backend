@@ -8,11 +8,24 @@ use App\Enums\FaqCategory;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * `GET faqs?category=students` or several topics at once:
+ * `GET faqs?category[]=students&category[]=germany` (results keep the requested topic order).
+ */
 final class IndexFaqRequest extends FormRequest
 {
     public function authorize(): bool
     {
         return true;
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $category = $this->input('category');
+
+        if (is_string($category)) {
+            $this->merge(['category' => [$category]]);
+        }
     }
 
     /**
@@ -21,12 +34,19 @@ final class IndexFaqRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category' => ['required', Rule::enum(FaqCategory::class)],
+            'category' => ['required', 'array', 'min:1', 'max:'.count(FaqCategory::cases())],
+            'category.*' => ['required', 'distinct', Rule::enum(FaqCategory::class)],
         ];
     }
 
-    public function category(): FaqCategory
+    /**
+     * @return list<FaqCategory>
+     */
+    public function categories(): array
     {
-        return FaqCategory::from((string) $this->validated('category'));
+        /** @var list<string> $values */
+        $values = $this->validated('category');
+
+        return array_map(static fn (string $value) => FaqCategory::from($value), $values);
     }
 }

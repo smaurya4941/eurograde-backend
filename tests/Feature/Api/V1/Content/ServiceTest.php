@@ -1,0 +1,42 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature\Api\V1\Content;
+
+use App\Models\Country;
+use App\Models\Service;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+final class ServiceTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_lists_active_services_in_display_order(): void
+    {
+        $germany = Country::factory()->create(['slug' => 'germany', 'name' => 'Germany']);
+        Service::factory()->create(['title' => 'Second', 'sort_order' => 2]);
+        Service::factory()->create([
+            'title' => 'First', 'sort_order' => 1, 'country_id' => $germany->id, 'icon_path' => 'services/icons/first.svg',
+        ]);
+        Service::factory()->inactive()->create(['sort_order' => 0]);
+        Service::factory()->create(['sort_order' => 0])->delete();
+
+        $this->getJson('/api/v1/services')
+            ->assertOk()
+            ->assertJsonCount(2, 'data')
+            ->assertJsonPath('data.0.title', 'First')
+            ->assertJsonPath('data.0.country', ['slug' => 'germany', 'name' => 'Germany'])
+            ->assertJsonPath('data.0.icon_url', config('app.url').'/storage/services/icons/first.svg')
+            ->assertJsonPath('data.1.country', null)
+            ->assertJsonStructure(['data' => [['id', 'slug', 'title', 'excerpt', 'icon_url', 'image_url', 'country']]]);
+    }
+
+    public function test_body_html_is_sanitised_on_save(): void
+    {
+        $service = Service::factory()->create(['body' => '<p>Hi</p><script>alert(1)</script>']);
+
+        $this->assertStringNotContainsString('<script', (string) $service->fresh()?->body);
+    }
+}

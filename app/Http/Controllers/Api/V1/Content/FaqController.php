@@ -18,7 +18,7 @@ final class FaqController extends Controller
     public function index(IndexFaqRequest $request): JsonResponse
     {
         return ApiResponse::success(
-            FaqResource::collection($this->content->faqs($request->category())),
+            FaqResource::collection($this->content->faqs(...$request->categories())),
         );
     }
 }

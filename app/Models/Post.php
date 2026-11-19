@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
@@ -26,9 +27,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $excerpt
  * @property string|null $body
  * @property string|null $image_path
+ * @property string|null $meta_title
+ * @property string|null $meta_description
  * @property CarbonImmutable|null $published_at
  * @property CarbonImmutable|null $created_at
  * @property CarbonImmutable|null $updated_at
+ * @property CarbonImmutable|null $deleted_at
  * @property-read PostCategory|null $category
  * @property-read TeamMember|null $author
  * @property-read Collection<int, Tag> $tags
@@ -36,7 +40,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Post extends Model
 {
     /** @use HasFactory<PostFactory> */
-    use FlushesContentCache, HasFactory;
+    use FlushesContentCache, HasFactory, SoftDeletes;
 
     /**
      * @var list<string>
@@ -49,6 +53,8 @@ class Post extends Model
         'excerpt',
         'body',
         'image_path',
+        'meta_title',
+        'meta_description',
         'published_at',
     ];
 
@@ -75,7 +81,8 @@ class Post extends Model
      */
     public function author(): BelongsTo
     {
-        return $this->belongsTo(TeamMember::class, 'author_id');
+        // Archived (soft-deleted) authors keep their byline on existing articles.
+        return $this->belongsTo(TeamMember::class, 'author_id')->withTrashed();
     }
 
     /**
