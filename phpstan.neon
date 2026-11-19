@@ -1,0 +1,11 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - app/
+        - routes/
+        - database/
+
+    # 0 (loosest) .. 10 (strictest). Raise as the codebase matures.
+    level: 6
