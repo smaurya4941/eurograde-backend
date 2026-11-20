@@ -1,2 +1,5 @@
+# EuroGrades API: JSON endpoints are not meant for search engines (the website is the frontend).
+# Media (images used on the website) may still be indexed.
 User-agent: *
-Disallow:
+Allow: /storage/
+Disallow: /

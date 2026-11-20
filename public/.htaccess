@@ -23,3 +23,11 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Uploaded / seeded media (public/storage → storage/app/public): replaced images always get a new
+# filename, so browsers may cache them for a long time.
+<IfModule mod_headers.c>
+    <If "%{REQUEST_URI} =~ m#^/storage/#">
+        Header set Cache-Control "public, max-age=2592000"
+    </If>
+</IfModule>

@@ -1,0 +1,105 @@
+# Checks every push to main, then publishes a ready-to-run copy (with production vendor/) to the
+# `deploy` branch. Plesk's Git extension pulls that branch, so the server needs no Composer/SSH.
+# Setup and server steps: DEPLOYMENT.md.
+name: Test and publish deploy branch
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    name: Pint, Larastan, PHPUnit
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: eurograde_testing
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=10s --health-timeout=5s --health-retries=10
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, intl, pdo_mysql, dom, fileinfo
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Prepare environment
+        run: cp .env.example .env && php artisan key:generate
+
+      - run: vendor/bin/pint --test
+      - run: vendor/bin/phpstan analyse --memory-limit=1G --no-progress
+      - run: php artisan test
+
+  publish:
+    name: Publish deploy branch
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, intl, pdo_mysql, dom, fileinfo
+          coverage: none
+
+      - name: Install production dependencies
+        run: composer install --no-dev --no-interaction --prefer-dist --no-progress --optimize-autoloader
+
+      - name: Assemble release
+        run: |
+          RELEASE="$RUNNER_TEMP/build"
+          mkdir -p "$RELEASE"
+          rsync -a ./ "$RELEASE"/ \
+            --exclude='.git' --exclude='.github' --exclude='tests' --exclude='node_modules' \
+            --exclude='.env' --exclude='phpunit.xml' --exclude='phpstan.neon' --exclude='pint.json'
+          # The deploy branch ships vendor/ (the server does not run Composer).
+          sed -i '/^\/vendor$/d' "$RELEASE/.gitignore"
+
+      - name: Commit to deploy branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPO="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          TARGET="$RUNNER_TEMP/deploy"
+          # Build on top of the existing branch so Plesk always gets a fast-forward pull.
+          if git ls-remote --exit-code --heads "$REPO" deploy > /dev/null; then
+            git clone --quiet --depth 1 --branch deploy "$REPO" "$TARGET"
+          else
+            git init --quiet -b deploy "$TARGET"
+            git -C "$TARGET" remote add origin "$REPO"
+          fi
+          rsync -a --delete --exclude='.git' "$RUNNER_TEMP/build"/ "$TARGET"/
+          cd "$TARGET"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing changed; deploy branch is up to date."
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit --quiet -m "Deploy ${GITHUB_SHA::7}"
+          git push --quiet origin HEAD:deploy
