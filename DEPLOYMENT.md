@@ -73,8 +73,9 @@ After the first pull, run once (Laravel Toolkit → Artisan, or deployment actio
 
 ```bash
 php artisan key:generate --force
-php artisan migrate --force --seed      # tables + site content, copies seeded images to storage
-php artisan storage:link                # public/storage → storage/app/public (media URLs)
+php artisan migrate --force --seed      # tables + site content, copies seeded images to public/storage
+# storage:link is not needed (and fails on this host): FILESYSTEM_PUBLIC_IN_WEBROOT=true in .env
+# stores media directly in public/storage.
 php artisan optimize
 ```
 

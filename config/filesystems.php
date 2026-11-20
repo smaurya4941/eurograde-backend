@@ -40,7 +40,10 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            // Hosts that disable symlink()/exec() can't run `storage:link`: with
+            // FILESYSTEM_PUBLIC_IN_WEBROOT=true public media is stored directly in public/storage
+            // instead (same /storage URLs, no link needed).
+            'root' => env('FILESYSTEM_PUBLIC_IN_WEBROOT', false) ? public_path('storage') : storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
