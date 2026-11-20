@@ -12,6 +12,7 @@ use App\Http\Responses\ApiResponse;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 final class AuthController extends Controller
 {
@@ -36,9 +37,14 @@ final class AuthController extends Controller
         return ApiResponse::success(new UserResource($user), 'Logged in.');
     }
 
-    public function me(Request $request): JsonResponse
+    /**
+     * The signed-in user, or null for guests.
+     */
+    public function me(): JsonResponse
     {
-        return ApiResponse::success(new UserResource($request->user()));
+        $user = Auth::guard('sanctum')->user();
+
+        return ApiResponse::success($user === null ? null : new UserResource($user));
     }
 
     public function logout(Request $request): JsonResponse

@@ -50,8 +50,11 @@ Route::prefix('auth')->name('auth.')->controller(AuthController::class)->group(f
         Route::post('login', 'login')->name('login');
     });
 
+    // Public "who am I": the signed-in user, or null for guests (not a 401, so visiting the
+    // site while logged out never logs an error in the browser console).
+    Route::get('me', 'me')->name('me');
+
     Route::middleware('auth:sanctum')->group(function () {
-        Route::get('me', 'me')->name('me');
         Route::post('logout', 'logout')->name('logout');
     });
 });

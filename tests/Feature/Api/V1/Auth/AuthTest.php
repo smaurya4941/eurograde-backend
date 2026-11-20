@@ -69,11 +69,17 @@ final class AuthTest extends TestCase
         $this->assertGuest('web');
     }
 
-    public function test_guest_cannot_access_profile(): void
+    public function test_me_returns_null_for_guests(): void
     {
         $this->getJson('/api/v1/auth/me')
-            ->assertUnauthorized()
-            ->assertExactJson(['success' => false, 'message' => 'Unauthenticated.']);
+            ->assertOk()
+            // The envelope omits null fields: no "data" means no signed-in user.
+            ->assertExactJson(['success' => true]);
+    }
+
+    public function test_guest_cannot_logout(): void
+    {
+        $this->postJson('/api/v1/auth/logout')->assertUnauthorized();
     }
 
     public function test_user_can_logout(): void
