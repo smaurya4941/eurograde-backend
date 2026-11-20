@@ -27,6 +27,7 @@ final class SiteSettingsResource extends JsonResource
         $contact = $this->resource['settings']['contact'] ?? [];
         $social = $this->resource['settings']['social'] ?? [];
         $phone = $contact['phone'] ?? null;
+        $phoneAlt = $contact['phone_alt'] ?? null;
 
         $socials = [];
         foreach (self::SOCIAL_NETWORKS as $network) {
@@ -39,9 +40,12 @@ final class SiteSettingsResource extends JsonResource
             'contact' => [
                 'phone' => $phone,
                 'phone_href' => $phone === null ? null : 'tel:'.preg_replace('/[^\d+]/', '', $phone),
+                'phone_alt' => $phoneAlt,
+                'phone_alt_href' => $phoneAlt === null ? null : 'tel:'.preg_replace('/[^\d+]/', '', $phoneAlt),
                 'email' => $contact['email'] ?? null,
                 'address' => $contact['address'] ?? null,
                 'hours' => $contact['hours'] ?? null,
+                'hours_weekend' => $contact['hours_weekend'] ?? null,
                 'map_embed_url' => $contact['map_embed_url'] ?? null,
             ],
             'socials' => $socials,

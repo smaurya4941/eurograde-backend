@@ -63,6 +63,7 @@ class ContentSeeder extends Seeder
         $this->seedSuccessStories();
         $this->seedCountries();
         $this->seedServices();
+        $this->seedServiceDetails();
         $this->seedUniversities();
         $this->seedFaqs();
         $this->seedPosts();
@@ -90,9 +91,11 @@ class ContentSeeder extends Seeder
     {
         $settings = [
             'contact.phone' => '+44 20 4154 2541',
+            'contact.phone_alt' => '+44 20 4154 2542',
             'contact.email' => 'contact@eurogrades.com',
             'contact.address' => '128A, Sewak Park, Uttam Nagar, New Delhi 110059, India',
             'contact.hours' => 'Mon – Fri: 9:00 AM – 6:00 PM',
+            'contact.hours_weekend' => 'Saturday: 9:00 AM – 4:00 PM',
             'social.facebook' => 'https://facebook.com',
             'social.instagram' => 'https://instagram.com',
             'social.x' => 'https://x.com',
@@ -143,6 +146,51 @@ class ContentSeeder extends Seeder
                 'is_active' => true,
                 'deleted_at' => null,
             ]);
+        }
+    }
+
+    /**
+     * Service detail page content (database/seeders/content/services.php). Checklist items and
+     * gallery photos are matched by position, metrics by label.
+     */
+    private function seedServiceDetails(): void
+    {
+        /** @var array<string, array<string, mixed>> $details */
+        $details = require self::CONTENT_SOURCE.'/services.php';
+
+        foreach ($details as $slug => $detail) {
+            $service = Service::withTrashed()->where('slug', $slug)->first();
+            if ($service === null) {
+                continue;
+            }
+
+            $service->update([
+                'banner_image_path' => $detail['banner'],
+                'overview' => $detail['overview'],
+                'offer_title' => $detail['offer_title'],
+                'offer_highlight' => $detail['offer_highlight'],
+                'offer_intro' => $detail['offer_intro'],
+                'why_title' => $detail['why_title'],
+                'why_highlight' => $detail['why_highlight'],
+                'why_intro' => $detail['why_intro'],
+                'why_outro' => $detail['why_outro'],
+                'faq_category' => $detail['faq_category'],
+                'faq_intro' => $detail['faq_intro'],
+            ]);
+
+            foreach ($detail['features'] as $index => $description) {
+                $service->features()->updateOrCreate(['sort_order' => $index + 1], ['description' => $description]);
+            }
+            $service->features()->where('sort_order', '>', count($detail['features']))->delete();
+
+            foreach ($detail['images'] as $index => [$path, $alt]) {
+                $service->images()->updateOrCreate(['sort_order' => $index + 1], ['image_path' => $path, 'alt' => $alt]);
+            }
+            $service->images()->where('sort_order', '>', count($detail['images']))->delete();
+
+            foreach ($detail['metrics'] as $index => [$label, $value]) {
+                $service->metrics()->updateOrCreate(['label' => $label], ['value' => $value, 'sort_order' => $index + 1]);
+            }
         }
     }
 
@@ -339,6 +387,7 @@ class ContentSeeder extends Seeder
                     'iso_code' => 'DE',
                     'flag_path' => 'countries/flags/germany.svg',
                     'cover_image_path' => 'countries/covers/germany-hero.webp',
+                    'banner_image_path' => 'banners/germany.webp',
                     'excerpt' => 'World-class, tuition-free public universities, research-driven programs and strong career prospects in Europe’s largest economy.',
                     // Paragraphs are separated by a blank line.
                     'overview' => "Unlock world-class education in Germany with EuroGrades. Whether you are planning a bachelor’s or master’s degree, preparing for TestDaF or IELTS, or applying for your student visa, our experienced counselors guide you through every step, from choosing the right public university and course to your arrival in Germany.\n\nGermany offers world-class education, affordable or tuition-free public universities, and strong career prospects. The education system is focused on research and practical learning, which helps students gain valuable skills while experiencing a rich cultural environment. With more than 400 universities and nearly 50,000 Indian students, it is one of the most popular study destinations in Europe.",
@@ -401,6 +450,7 @@ class ContentSeeder extends Seeder
                     'iso_code' => 'IT',
                     'flag_path' => 'countries/flags/italy.svg',
                     'cover_image_path' => 'countries/covers/italy-hero.webp',
+                    'banner_image_path' => 'banners/italy.webp',
                     'excerpt' => 'Affordable public universities, globally respected programs in design, architecture and engineering, and a rich cultural life.',
                     'overview' => "Study in Italy with EuroGrades. From choosing an affordable public university and applying for scholarships to Italian language preparation, student visas, and accommodation, our counselors support you at every step of your journey.\n\nItaly combines quality education, rich culture, affordable living, and access to top European companies. Its universities are globally respected, especially in architecture, fashion, art, and engineering, and many offer English-taught programs, making Italy a great choice for international students.",
                     'why_choose_intro' => 'Italy is one of Europe’s more affordable study destinations, combining globally respected universities, scholarships for international students, and an unmatched cultural experience.',
@@ -569,6 +619,15 @@ class ContentSeeder extends Seeder
                 ['Can I survive in Italy with only English?', 'In major cities and universities, yes, but daily life is much easier with basic Italian. Simple tasks like grocery shopping, asking for directions, or visiting a doctor need some local language skills.'],
                 ['Is Italian hard to learn for English speakers?', 'Italian is a Romance language with phonetic spelling and regular grammar, making it relatively easy for English speakers compared to languages like German or Russian.'],
                 ['Will learning Italian open up more academic and professional opportunities?', 'Yes. Beyond studying in Italy, Italian is spoken in parts of Switzerland and valued in international careers in fashion, art, culinary arts, diplomacy, and design.'],
+            ],
+            // Attestation Services page (old site: mea-attestion.php).
+            FaqCategory::Attestation->value => [
+                ['What is the difference between an Apostille and normal MEA attestation?', 'An Apostille is accepted in the member countries of the Hague Convention, so a document apostilled once is recognised by all of them without separate attestation for each country. Normal (general) MEA attestation is done for countries that are not members of the Hague Convention and do not accept the Apostille.'],
+                ['Which documents can be apostilled?', 'Personal documents such as birth, death and marriage certificates, affidavits and power of attorney, and educational certificates such as degrees, diplomas, matriculation and secondary-level certificates.'],
+                ['Do my documents need to be authenticated by the state first?', 'Yes. Before MEA attestation, documents must be authenticated by the designated authority of the state or union territory that issued them: the Home or General Administration Department for personal documents, the State Education Department (State HRD) for educational documents, and the Chambers of Commerce for commercial documents.'],
+                ['What is embassy legalisation and when do I need it?', 'Many countries ask for embassy legalisation in addition to the apostille, which means submitting your documents to their embassy or consulate in India. Each embassy has its own process, and some documents only need the apostille certificate. We check what your destination requires and handle the submission for you.'],
+                ['How does UAE attestation work?', 'Educational documents are attested by the Education Ministry of the concerned state and then by the Ministry of External Affairs before visiting the UAE Embassy’s Consular Section. Other documents, such as marriage, birth and experience certificates, need MEA attestation first. Commercial documents are attested by the MEA and can be submitted by authorised company employees.'],
+                ['Do you translate documents as well?', 'Yes. Some attestation and legalisation work requires a translation into the language of your destination country. Our certified translators cover major languages including English, German, Italian, French, Spanish, Russian, Arabic, Japanese, Korean, Chinese and Portuguese, as well as Indian languages.'],
             ],
         ];
 

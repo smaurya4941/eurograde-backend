@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $iso_code
  * @property string|null $flag_path
  * @property string|null $cover_image_path
+ * @property string|null $banner_image_path
  * @property string|null $excerpt
  * @property string|null $overview
  * @property string|null $why_choose_intro
@@ -62,6 +63,7 @@ class Country extends Model
         'iso_code',
         'flag_path',
         'cover_image_path',
+        'banner_image_path',
         'excerpt',
         'overview',
         'why_choose_intro',

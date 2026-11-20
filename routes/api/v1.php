@@ -27,6 +27,7 @@ Route::get('testimonials', [TestimonialController::class, 'index'])->name('testi
 Route::get('success-stories', [SuccessStoryController::class, 'index'])->name('success-stories.index');
 Route::get('site-settings', SiteSettingsController::class)->name('site-settings');
 Route::get('services', [ServiceController::class, 'index'])->name('services.index');
+Route::get('services/{slug}', [ServiceController::class, 'show'])->where('slug', '[a-z0-9-]+')->name('services.show');
 Route::get('universities', [UniversityController::class, 'index'])->name('universities.index');
 Route::get('countries', [CountryController::class, 'index'])->name('countries.index');
 Route::get('countries/{slug}', [CountryController::class, 'show'])->where('slug', '[a-z0-9-]+')->name('countries.show');

@@ -17,6 +17,8 @@ final class SiteSettingsTest extends TestCase
     {
         SiteSetting::query()->create(['key' => 'contact.phone', 'value' => '+44 20 4154 2541']);
         SiteSetting::query()->create(['key' => 'contact.email', 'value' => 'contact@example.com']);
+        SiteSetting::query()->create(['key' => 'contact.phone_alt', 'value' => '+44 20 4154 2542']);
+        SiteSetting::query()->create(['key' => 'contact.hours_weekend', 'value' => 'Saturday: 9:00 AM – 4:00 PM']);
         SiteSetting::query()->create(['key' => 'social.youtube', 'value' => 'https://youtube.com/x']);
         SiteSetting::query()->create(['key' => 'social.facebook', 'value' => 'https://facebook.com/x']);
         SiteSetting::query()->create(['key' => 'social.instagram', 'value' => '']);
@@ -30,6 +32,9 @@ final class SiteSettingsTest extends TestCase
             ->assertJsonPath('data.contact.phone', '+44 20 4154 2541')
             ->assertJsonPath('data.contact.phone_href', 'tel:+442041542541')
             ->assertJsonPath('data.contact.email', 'contact@example.com')
+            ->assertJsonPath('data.contact.phone_alt', '+44 20 4154 2542')
+            ->assertJsonPath('data.contact.phone_alt_href', 'tel:+442041542542')
+            ->assertJsonPath('data.contact.hours_weekend', 'Saturday: 9:00 AM – 4:00 PM')
             ->assertJsonPath('data.contact.address', null)
             ->assertJsonMissingPath('data.contact.secret')
             // Display order is fixed (facebook before youtube); empty values are skipped.

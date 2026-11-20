@@ -34,6 +34,7 @@ final class CountryDetailResource extends JsonResource
             'iso_code' => $this->iso_code,
             'flag_url' => MediaUrl::from($this->flag_path),
             'cover_image_url' => MediaUrl::from($this->cover_image_path),
+            'banner_image_url' => MediaUrl::from($this->banner_image_path),
             'excerpt' => $this->excerpt,
             'overview' => $this->overview,
             'why_choose' => [

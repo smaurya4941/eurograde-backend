@@ -101,6 +101,32 @@ final class ContentService
     }
 
     /**
+     * A single active service with everything its detail page shows.
+     *
+     * @throws ModelNotFoundException<Service> when the slug is unknown or the service is inactive
+     */
+    public function service(string $slug): Service
+    {
+        $active = ContentCache::remember(
+            'service-slugs',
+            static fn (): array => array_fill_keys(Service::query()->active()->pluck('slug')->all(), true),
+        );
+
+        if (! isset($active[$slug])) {
+            throw (new ModelNotFoundException)->setModel(Service::class, [$slug]);
+        }
+
+        return ContentCache::remember(
+            'service:'.$slug,
+            static fn () => Service::query()
+                ->active()
+                ->where('slug', $slug)
+                ->with(['country:id,slug,name', 'features', 'images', 'metrics'])
+                ->firstOrFail(),
+        );
+    }
+
+    /**
      * Active universities (of active countries), optionally for one country and/or partners only.
      *
      * @return Collection<int, University>

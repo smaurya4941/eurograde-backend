@@ -23,4 +23,7 @@ enum FaqCategory: string
     case GermanLanguage = 'german-language';
 
     case ItalianLanguage = 'italian-language';
+
+    /** Attestation Services detail page (old site: mea-attestion.php). */
+    case Attestation = 'attestation';
 }

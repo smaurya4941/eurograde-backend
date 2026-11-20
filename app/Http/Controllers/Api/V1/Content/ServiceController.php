@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\V1\Content;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\ServiceDetailResource;
 use App\Http\Resources\V1\ServiceResource;
 use App\Http\Responses\ApiResponse;
 use App\Services\Content\ContentService;
@@ -17,5 +18,10 @@ final class ServiceController extends Controller
     public function index(): JsonResponse
     {
         return ApiResponse::success(ServiceResource::collection($this->content->services()));
+    }
+
+    public function show(string $slug): JsonResponse
+    {
+        return ApiResponse::success(new ServiceDetailResource($this->content->service($slug)));
     }
 }
