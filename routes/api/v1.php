@@ -1,5 +1,13 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Admin\CommentController as AdminCommentController;
+use App\Http\Controllers\Api\V1\Admin\ContactMessageController as AdminContactMessageController;
+use App\Http\Controllers\Api\V1\Admin\NewsletterSubscriberController as AdminNewsletterSubscriberController;
+use App\Http\Controllers\Api\V1\Admin\PostCategoryController as AdminPostCategoryController;
+use App\Http\Controllers\Api\V1\Admin\PostController as AdminPostController;
+use App\Http\Controllers\Api\V1\Admin\TagController as AdminTagController;
+use App\Http\Controllers\Api\V1\Admin\TeamMemberController as AdminTeamMemberController;
+use App\Http\Controllers\Api\V1\Admin\TestimonialController as AdminTestimonialController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Content\CountryController;
 use App\Http\Controllers\Api\V1\Content\FaqController;
@@ -59,7 +67,22 @@ Route::prefix('auth')->name('auth.')->controller(AuthController::class)->group(f
     });
 });
 
-// Authenticated application routes
-Route::middleware('auth:sanctum')->group(function () {
-    // Feature routes go here, e.g. Route::apiResource('products', ProductController::class);
+// Admin CMS panel
+Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::apiResource('posts', AdminPostController::class);
+    Route::apiResource('team-members', AdminTeamMemberController::class);
+    Route::apiResource('testimonials', AdminTestimonialController::class);
+    Route::apiResource('post-categories', AdminPostCategoryController::class)->except(['show']);
+    Route::apiResource('tags', AdminTagController::class)->except(['show']);
+
+    Route::get('comments', [AdminCommentController::class, 'index'])->name('comments.index');
+    Route::patch('comments/{comment}', [AdminCommentController::class, 'update'])->name('comments.update');
+    Route::delete('comments/{comment}', [AdminCommentController::class, 'destroy'])->name('comments.destroy');
+
+    Route::get('contact-messages', [AdminContactMessageController::class, 'index'])->name('contact-messages.index');
+    Route::patch('contact-messages/{message}', [AdminContactMessageController::class, 'update'])->name('contact-messages.update');
+    Route::delete('contact-messages/{message}', [AdminContactMessageController::class, 'destroy'])->name('contact-messages.destroy');
+
+    Route::get('newsletter-subscribers', [AdminNewsletterSubscriberController::class, 'index'])->name('newsletter-subscribers.index');
+    Route::delete('newsletter-subscribers/{subscriber}', [AdminNewsletterSubscriberController::class, 'destroy'])->name('newsletter-subscribers.destroy');
 });

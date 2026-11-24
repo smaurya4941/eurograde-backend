@@ -22,6 +22,7 @@ final class TagResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
+            'posts_count' => $this->whenCounted('posts'),
         ];
     }
 }

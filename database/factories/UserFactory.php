@@ -42,4 +42,12 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    /** `is_admin` is never mass-assignable, so this forces it after creation. */
+    public function admin(): static
+    {
+        return $this->afterCreating(function (User $user): void {
+            $user->forceFill(['is_admin' => true])->save();
+        });
+    }
 }
