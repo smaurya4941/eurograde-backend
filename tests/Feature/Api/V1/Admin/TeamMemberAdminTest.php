@@ -124,7 +124,7 @@ final class TeamMemberAdminTest extends TestCase
             ])
             ->assertOk();
 
-        $this->assertSame(
+        $this->assertEquals(
             [['network' => 'facebook', 'url' => 'https://facebook.com/jane']],
             $teamMember->fresh()->socials,
         );
