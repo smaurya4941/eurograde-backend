@@ -7,9 +7,6 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-/**
- * Demo data for local development only. Never runs in production.
- */
 class DevelopmentSeeder extends Seeder
 {
     public function run(): void

@@ -43,6 +43,7 @@ class ContactMessage extends Model
         'source_page',
         'ip_address',
         'user_agent',
+        'handled_at',
     ];
 
     /**

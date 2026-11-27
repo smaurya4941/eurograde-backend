@@ -38,6 +38,8 @@ class ContentSeeder extends Seeder
 
     /** @var list<string> */
     private const RETIRED_FAQ_QUESTIONS = [
+        'Who can enroll in the German language course at EuroGrades?',
+        'What teaching methods does EuroGrades use?',
         'What services do you provide for students?',
         'How do I choose the right university and course?',
         'What documents are required for a student visa?',
@@ -92,7 +94,7 @@ class ContentSeeder extends Seeder
         $settings = [
             'contact.phone' => '+44 20 4154 2541',
             'contact.phone_alt' => '+44 20 4154 2542',
-            'contact.email' => 'contact@eurogrades.com',
+            'contact.email' => 'contact@eurorank.com',
             'contact.address' => '128A, Sewak Park, Uttam Nagar, New Delhi 110059, India',
             'contact.hours' => 'Mon – Fri: 9:00 AM – 6:00 PM',
             'contact.hours_weekend' => 'Saturday: 9:00 AM – 4:00 PM',
@@ -120,7 +122,7 @@ class ContentSeeder extends Seeder
         }
     }
 
-    /** What EuroGrades offers (copy adapted from eurogrades.com). */
+    /** What EuroRank offers (copy adapted from eurogrades.com). */
     private function seedServices(): void
     {
         $countries = Country::query()->pluck('id', 'slug');
@@ -256,7 +258,7 @@ class ContentSeeder extends Seeder
         foreach ($members as $index => [$name, $role, $bio]) {
             $slug = str($name)->slug()->toString();
 
-            TeamMember::query()->updateOrCreate(['slug' => $slug], [
+            TeamMember::withTrashed()->updateOrCreate(['slug' => $slug], [
                 'name' => $name,
                 'role' => $role,
                 'bio' => $bio,
@@ -282,46 +284,46 @@ class ContentSeeder extends Seeder
         // [slug, name, category, program, origin, destination, achievement, quote, highlights, featured]
         $testimonials = [
             ['neha-sharma', 'Neha Sharma', $admissions, 'Master’s Student', 'India', 'Germany', null,
-                'I was overwhelmed with the process of studying abroad, but EuroGrades made everything easy. They helped me apply to a top public university in Germany, and I even secured a tuition-free spot! Their support didn’t end after admission, they guided me through the visa process and settling in too.',
+                'I was overwhelmed with the process of studying abroad, but EuroRank made everything easy. They helped me apply to a top public university in Germany, and I even secured a tuition-free spot! Their support didn’t end after admission, they guided me through the visa process and settling in too.',
                 ['University Admission', 'Tuition-Free Program', 'Student Visa', 'Settling-In Support'], true],
             ['naveen-bhatt', 'Naveen Bhatt', $admissions, 'Business Student', 'India', 'Italy', null,
-                'I always wanted to study in Italy but wasn’t sure how to afford it. EuroGrades helped me find an affordable public university and walked me through every step, from applications to housing. Now I’m living my dream in Italy, studying what I love without financial stress!',
+                'I always wanted to study in Italy but wasn’t sure how to afford it. EuroRank helped me find an affordable public university and walked me through every step, from applications to housing. Now I’m living my dream in Italy, studying what I love without financial stress!',
                 ['University Selection', 'Application Support', 'Housing Assistance', 'Affordable Study Plan'], true],
             ['shivani-mittal', 'Shivani Mittal', $admissions, 'Master’s Student', 'India', 'Germany', null,
-                'I never thought studying in Germany could be this easy. From applying to getting accepted at LMU Munich, everything just fell into place with the guidance and support of EuroGrades. Best decision I ever made!',
+                'I never thought studying in Germany could be this easy. From applying to getting accepted at LMU Munich, everything just fell into place with the guidance and support of EuroRank. Best decision I ever made!',
                 ['University Admission', 'Application Support', 'Student Visa', 'Pre-Departure Support'], true],
             ['vasu-das', 'Vasu Das', $admissions, 'Business Student', 'India', 'Italy', null,
-                'I always thought studying abroad was out of reach, but EuroGrades made it so simple and affordable. They helped me get into the University of Bologna, and now I’m living my dream of studying in Italy. It’s been an amazing journey!',
+                'I always thought studying abroad was out of reach, but EuroRank made it so simple and affordable. They helped me get into the University of Bologna, and now I’m living my dream of studying in Italy. It’s been an amazing journey!',
                 ['University Admission', 'Affordable Pathway', 'Student Visa', 'Application Support'], true],
             ['aisha-khan', 'Aisha Khan', $admissions, 'Art Student', 'India', 'Italy', null,
-                'EuroGrades took the stress out of studying abroad. They helped me choose the right university in Italy, apply for scholarships, and even find accommodation. I couldn’t have done it without their support. Now, I’m studying architecture in Rome and loving every moment!',
+                'EuroRank took the stress out of studying abroad. They helped me choose the right university in Italy, apply for scholarships, and even find accommodation. I couldn’t have done it without their support. Now, I’m studying architecture in Rome and loving every moment!',
                 ['University Selection', 'Scholarship Application', 'Accommodation Support', 'Student Visa'], true],
             ['anup-gupta', 'Anup Gupta', $ielts, 'IELTS Preparation', null, null, 'Band 8',
-                'EuroGrades’ faculty has been very helpful and supportive. During the last few days before the exam, they actually stretched beyond the classroom to help us resolve our doubts and queries. Without EuroGrades, I would not have been able to score band 8 and get into my dream college.',
+                'EuroRank’s faculty has been very helpful and supportive. During the last few days before the exam, they actually stretched beyond the classroom to help us resolve our doubts and queries. Without EuroRank, I would not have been able to score band 8 and get into my dream college.',
                 ['IELTS Coaching', 'Band 8 Score', 'Doubt-Clearing Sessions', 'University Admission'], true],
             ['shipli-pradhan', 'Shipli Pradhan', $ielts, 'IELTS Preparation', null, null, 'Band 9',
-                'I enrolled in the EuroGrades IELTS preparation classes. The faculty was extremely patient in helping me address my queries, which resulted in me getting a band 9. Regardless of the number of students in the class, everyone gets equal attention, and the faculty makes sure of it.',
+                'I enrolled in the EuroRank IELTS preparation classes. The faculty was extremely patient in helping me address my queries, which resulted in me getting a band 9. Regardless of the number of students in the class, everyone gets equal attention, and the faculty makes sure of it.',
                 [], false],
             ['ashlay-thomas', 'Ashlay Thomas', $ielts, 'IELTS Preparation', null, null, 'Band 8',
-                'After an 8-week preparatory course with EuroGrades, I scored a band 8 on my IELTS exam. They explained the format, what to expect, and quick tips to solve the questions quickly and effectively. Attending EuroGrades was a fruitful experience on the whole.',
+                'After an 8-week preparatory course with EuroRank, I scored a band 8 on my IELTS exam. They explained the format, what to expect, and quick tips to solve the questions quickly and effectively. Attending EuroRank was a fruitful experience on the whole.',
                 [], false],
             ['aditya', 'Aditya', $german, 'German Language', null, null, 'B1 Level',
-                'What I loved most about EuroGrades was how practical their approach was. Instead of just memorizing grammar rules, we actually used German in real-life scenarios. The trainers were patient, and the small class sizes meant we got plenty of personal attention. I passed my A2 exam on the first try!',
+                'What I loved most about EuroRank was how practical their approach was. Instead of just memorizing grammar rules, we actually used German in real-life scenarios. The trainers were patient, and the small class sizes meant we got plenty of personal attention. I passed my A2 exam on the first try!',
                 [], false],
             ['riya-malhotra', 'Riya Malhotra', $italian, 'Italian Language', null, null, 'C1 Intermediate',
-                'Before EuroGrades, Italian was just a dream. But the way they teach, so interactive and fun, made learning super easy! I can now hold real conversations and even passed my B2 level with flying colours. If you’re thinking about learning Italian, this is the place to start!',
+                'Before EuroRank, Italian was just a dream. But the way they teach, so interactive and fun, made learning super easy! I can now hold real conversations and even passed my B2 level with flying colours. If you’re thinking about learning Italian, this is the place to start!',
                 [], false],
             ['neha', 'Neha', $german, 'German Language', null, null, 'B1 Level',
-                'I struggled with pronunciation at first, but the audio exercises and speaking practice at EuroGrades helped me improve fast. The best part? The classes were affordable, flexible, and well-paced. Now, I can confidently understand German news and even chat with native speakers!',
+                'I struggled with pronunciation at first, but the audio exercises and speaking practice at EuroRank helped me improve fast. The best part? The classes were affordable, flexible, and well-paced. Now, I can confidently understand German news and even chat with native speakers!',
                 [], false],
             ['pallavi-sharma', 'Pallavi Sharma', $italian, 'Italian Language', null, null, 'C1 Advanced',
-                'Learning Italian was something I always wanted but never got around to. EuroGrades reignited that passion. The faculty is patient, the pace is just right, and I never felt lost. Today, I understand opera lyrics and Italian films without subtitles, pure joy.',
+                'Learning Italian was something I always wanted but never got around to. EuroRank reignited that passion. The faculty is patient, the pace is just right, and I never felt lost. Today, I understand opera lyrics and Italian films without subtitles, pure joy.',
                 [], false],
             ['ritika', 'Ritika', $german, 'German Language', null, null, 'B1 Level',
-                'As someone who had no prior knowledge of German, EuroGrades provided me with a solid foundation in the language. The teachers are supportive and always ready to help. Thanks for being instrumental in my success!',
+                'As someone who had no prior knowledge of German, EuroRank provided me with a solid foundation in the language. The teachers are supportive and always ready to help. Thanks for being instrumental in my success!',
                 [], false],
             ['neha-sethi', 'Neha Sethi', $italian, 'Italian Language', null, null, 'B2 Upper Intermediate',
-                'I joined EuroGrades on a whim, thinking I’d drop out halfway like I always do with online courses. But the vibe here is different! The classes are relaxed, the trainers are supportive, and I actually look forward to them.',
+                'I joined EuroRank on a whim, thinking I’d drop out halfway like I always do with online courses. But the vibe here is different! The classes are relaxed, the trainers are supportive, and I actually look forward to them.',
                 [], false],
         ];
 
@@ -390,7 +392,7 @@ class ContentSeeder extends Seeder
                     'banner_image_path' => 'banners/germany.webp',
                     'excerpt' => 'World-class, tuition-free public universities, research-driven programs and strong career prospects in Europe’s largest economy.',
                     // Paragraphs are separated by a blank line.
-                    'overview' => "Unlock world-class education in Germany with EuroGrades. Whether you are planning a bachelor’s or master’s degree, preparing for TestDaF or IELTS, or applying for your student visa, our experienced counselors guide you through every step, from choosing the right public university and course to your arrival in Germany.\n\nGermany offers world-class education, affordable or tuition-free public universities, and strong career prospects. The education system is focused on research and practical learning, which helps students gain valuable skills while experiencing a rich cultural environment. With more than 400 universities and nearly 50,000 Indian students, it is one of the most popular study destinations in Europe.",
+                    'overview' => "Unlock world-class education in Germany with EuroRank. Whether you are planning a bachelor’s or master’s degree, preparing for TestDaF or IELTS, or applying for your student visa, our experienced counselors guide you through every step, from choosing the right public university and course to your arrival in Germany.\n\nGermany offers world-class education, affordable or tuition-free public universities, and strong career prospects. The education system is focused on research and practical learning, which helps students gain valuable skills while experiencing a rich cultural environment. With more than 400 universities and nearly 50,000 Indian students, it is one of the most popular study destinations in Europe.",
                     'why_choose_intro' => 'Germany is one of the most popular destinations for international students seeking quality education at little or no tuition cost, strong career prospects, and a high standard of living.',
                     'why_choose_image_path' => 'countries/why/germany.webp',
                     'cities_intro' => 'Explore, learn, and thrive in Germany’s top student cities, where education meets opportunity.',
@@ -399,7 +401,7 @@ class ContentSeeder extends Seeder
                     'post_study_work' => 'Germany offers excellent post-study work opportunities for international graduates. After completing a degree, students can apply for an 18-month job-seeking visa to find employment. With a strong economy and demand for skilled professionals, graduates can secure well-paying jobs, especially in engineering, IT, and healthcare.',
                     'faq_category' => FaqCategory::Germany,
                     'meta_title' => 'Study in Germany',
-                    'meta_description' => 'Study at tuition-free public universities in Germany: costs, visas, requirements and top student cities, with expert guidance from EuroGrades.',
+                    'meta_description' => 'Study at tuition-free public universities in Germany: costs, visas, requirements and top student cities, with expert guidance from EuroRank.',
                 ],
                 // [label, value, highlighted on card]
                 'stats' => [
@@ -452,7 +454,7 @@ class ContentSeeder extends Seeder
                     'cover_image_path' => 'countries/covers/italy-hero.webp',
                     'banner_image_path' => 'banners/italy.webp',
                     'excerpt' => 'Affordable public universities, globally respected programs in design, architecture and engineering, and a rich cultural life.',
-                    'overview' => "Study in Italy with EuroGrades. From choosing an affordable public university and applying for scholarships to Italian language preparation, student visas, and accommodation, our counselors support you at every step of your journey.\n\nItaly combines quality education, rich culture, affordable living, and access to top European companies. Its universities are globally respected, especially in architecture, fashion, art, and engineering, and many offer English-taught programs, making Italy a great choice for international students.",
+                    'overview' => "Study in Italy with EuroRank. From choosing an affordable public university and applying for scholarships to Italian language preparation, student visas, and accommodation, our counselors support you at every step of your journey.\n\nItaly combines quality education, rich culture, affordable living, and access to top European companies. Its universities are globally respected, especially in architecture, fashion, art, and engineering, and many offer English-taught programs, making Italy a great choice for international students.",
                     'why_choose_intro' => 'Italy is one of Europe’s more affordable study destinations, combining globally respected universities, scholarships for international students, and an unmatched cultural experience.',
                     'why_choose_image_path' => 'countries/why/italy.webp',
                     'cities_intro' => 'Explore, learn, and thrive in Italy’s top student cities, where education meets opportunity.',
@@ -461,7 +463,7 @@ class ContentSeeder extends Seeder
                     'post_study_work' => 'Italy offers excellent post-study work opportunities, especially for graduates in fashion, design, engineering, and hospitality. Graduates can apply for a stay-back permit (up to 12 months) to look for a job and convert it into a work visa once employed.',
                     'faq_category' => FaqCategory::Italy,
                     'meta_title' => 'Study in Italy',
-                    'meta_description' => 'Study at affordable public universities in Italy: costs, visas, requirements and top student cities, with expert guidance from EuroGrades.',
+                    'meta_description' => 'Study at affordable public universities in Italy: costs, visas, requirements and top student cities, with expert guidance from EuroRank.',
                 ],
                 'stats' => [
                     ['Tuition Fee (Yearly)', '$1,000 – $4,800 (Public)', true],
@@ -601,11 +603,11 @@ class ContentSeeder extends Seeder
                 ['What is the fee for the IELTS exam?', 'The fee varies by country and test center. In India it is approximately INR 16,250, but check the official IELTS website for the latest fee structure.'],
             ],
             FaqCategory::GermanLanguage->value => [
-                ['Who can enroll in the German language course at EuroGrades?', 'Anyone interested in learning German can enroll! Whether you are a student planning to study in Germany or a professional looking for better job opportunities, our courses cater to all skill levels, from complete beginners to advanced learners refining their fluency.'],
+                ['Who can enroll in the German language course at EuroRank?', 'Anyone interested in learning German can enroll! Whether you are a student planning to study in Germany or a professional looking for better job opportunities, our courses cater to all skill levels, from complete beginners to advanced learners refining their fluency.'],
                 ['How long does it take to learn German?', 'It depends on your pace and target level. Basic levels (A1–A2) typically take 8–12 weeks each, while intermediate levels (B1–B2) can take several months. Consistent practice, interactive learning, and immersion speed up the process.'],
                 ['Do I need prior knowledge of German to start?', 'No. Our A1 course is designed for complete beginners, covering the basics of grammar, vocabulary, and everyday conversation.'],
-                ['What teaching methods does EuroGrades use?', 'We use an interactive, immersive approach that combines live classes, real-life conversations, listening exercises, and practical writing tasks, with role-play, group discussions, and personalized feedback to build confident communication.'],
-                ['Will I get a certificate after completing the course?', 'Yes. After completing each level you receive a EuroGrades certificate that you can use for university applications, jobs, and visa processes. Our courses also prepare you for internationally recognized exams like Goethe, TestDaF, and TELC.'],
+                ['What teaching methods does EuroRank use?', 'We use an interactive, immersive approach that combines live classes, real-life conversations, listening exercises, and practical writing tasks, with role-play, group discussions, and personalized feedback to build confident communication.'],
+                ['Will I get a certificate after completing the course?', 'Yes. After completing each level you receive a EuroRank certificate that you can use for university applications, jobs, and visa processes. Our courses also prepare you for internationally recognized exams like Goethe, TestDaF, and TELC.'],
                 ['Is learning German necessary for studying in Germany?', 'Not always, as many universities offer English-taught programs. However, knowing German improves your chances of admission, helps with daily life, and enhances job opportunities in Germany.'],
                 ['Are the classes online or offline?', 'Both. Our interactive online sessions offer flexibility, while offline classes provide in-person learning for those who prefer a traditional classroom.'],
                 ['How much do the German language courses cost?', 'Fees vary by level and format (online or offline). We offer affordable pricing with flexible payment options; contact us for detailed fees and current student and professional discounts.'],
@@ -714,7 +716,7 @@ class ContentSeeder extends Seeder
             : CarbonImmutable::parse('2026-06-17 12:00:00')->subMinutes(($index - 6) * 10);
 
         foreach ($posts as $index => [$slug, $title, $category, $excerpt]) {
-            $post = Post::query()->updateOrCreate(['slug' => $slug], [
+            $post = Post::withTrashed()->updateOrCreate(['slug' => $slug], [
                 'title' => $title,
                 'post_category_id' => $categories[$category],
                 'author_id' => $authors[$authorFor[$category]] ?? null,

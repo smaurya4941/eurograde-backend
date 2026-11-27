@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // What EuroGrades offers (home services carousel, footer, future Services pages).
+        // What EuroRank offers (home services carousel, footer, future Services pages).
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->string('title', 150);

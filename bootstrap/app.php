@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\ForceJsonResponse;
 use App\Http\Responses\ApiResponse;
 use Illuminate\Auth\AuthenticationException;
@@ -24,6 +25,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->api(prepend: [
             ForceJsonResponse::class,
+        ]);
+
+        $middleware->alias([
+            'admin' => EnsureUserIsAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -17,6 +17,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $name
  * @property string $email
  * @property CarbonImmutable|null $email_verified_at
+ * @property bool $is_admin
  * @property CarbonImmutable|null $created_at
  * @property CarbonImmutable|null $updated_at
  */
@@ -43,6 +44,16 @@ class User extends Authenticatable
     ];
 
     /**
+     * `is_admin` is never mass-assignable (see $fillable), so a freshly-made instance
+     * needs this default to behave like one just loaded from the database.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'is_admin' => false,
+    ];
+
+    /**
      * @return array<string, string>
      */
     protected function casts(): array
@@ -50,6 +61,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
     }
 }
