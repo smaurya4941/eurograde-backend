@@ -31,7 +31,7 @@ final class TestimonialAdminTest extends TestCase
                 'name' => 'John Student',
                 'category' => 'admissions',
                 'program' => 'Master’s Student',
-                'quote' => 'EuroGrades made this easy.',
+                'quote' => 'EuroRank made this easy.',
                 'rating' => 5,
             ])
             ->assertCreated()
@@ -49,7 +49,7 @@ final class TestimonialAdminTest extends TestCase
                 'name' => 'John Student',
                 'category' => 'not-a-real-category',
                 'program' => 'Master’s Student',
-                'quote' => 'EuroGrades made this easy.',
+                'quote' => 'EuroRank made this easy.',
                 'rating' => 5,
             ])
             ->assertUnprocessable()

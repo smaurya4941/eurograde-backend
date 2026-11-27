@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Something EuroGrades offers (Study in Germany, IELTS Preparation, Attestation…).
+ * Something EuroRank offers (Study in Germany, IELTS Preparation, Attestation…).
  *
  * @property int $id
  * @property string $title

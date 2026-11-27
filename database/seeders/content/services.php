@@ -12,7 +12,7 @@ use App\Enums\FaqCategory;
  * Banners are the page banners of the matching old-site pages (assets/*_bg.jpg).
  *
  * Metric percentages are placeholders (the old site has no such figures): replace them with
- * EuroGrades' real numbers when available.
+ * EuroRank's real numbers when available.
  */
 return [
     'study-in-germany' => [
@@ -20,7 +20,7 @@ return [
         'overview' => <<<'TXT'
             Germany is one of the best destinations for studying abroad, offering world-class education, affordable tuition, and excellent career opportunities. Public universities in Germany provide high-quality education at little to no tuition fees, making it a cost-effective choice for international students. Whether you want to study engineering, business, or medicine, Germany has top-ranked universities that offer globally recognized degrees.
 
-            One of the biggest advantages of studying in Germany is the strong focus on research and practical learning. Many universities collaborate with industries, giving students hands-on experience and better job prospects. EuroGrades guides you through every step, from choosing the right public university to securing your student visa.
+            One of the biggest advantages of studying in Germany is the strong focus on research and practical learning. Many universities collaborate with industries, giving students hands-on experience and better job prospects. EuroRank guides you through every step, from choosing the right public university to securing your student visa.
             TXT,
         'offer_title' => 'End-to-End Germany Admissions',
         'offer_highlight' => 'Germany Admissions',
@@ -31,11 +31,11 @@ return [
             'Student visa guidance for the national D visa, the student applicant visa and the language course visa, plus advice on part-time work and the 18-month post-study job-seeking visa.',
         ],
         'images' => [
-            ['services/gallery/advisor-world-map.webp', 'EuroGrades counselor planning a student’s study abroad journey'],
+            ['services/gallery/advisor-world-map.webp', 'EuroRank counselor planning a student’s study abroad journey'],
             ['services/gallery/student-campus.webp', 'International student on a university campus'],
         ],
-        'why_title' => 'Why Choose EuroGrades for Germany',
-        'why_highlight' => 'EuroGrades',
+        'why_title' => 'Why Choose EuroRank for Germany',
+        'why_highlight' => 'EuroRank',
         'why_intro' => 'Whether you plan to pursue a bachelor’s or master’s degree in engineering, business, IT or medicine, our team simplifies the process and guides you toward the best public universities for your future.',
         'metrics' => [
             ['Admission Success Rate', 95],
@@ -43,7 +43,7 @@ return [
             ['Document Accuracy & Verification', 98],
             ['On-Time Application Processing', 96],
         ],
-        'why_outro' => 'While many programs are offered in English, learning German can be a huge advantage, helping you integrate better and expand your career opportunities. If you’re looking for an affordable, high-quality education with strong career prospects, studying in Germany is a smart choice, and EuroGrades is with you all the way.',
+        'why_outro' => 'While many programs are offered in English, learning German can be a huge advantage, helping you integrate better and expand your career opportunities. If you’re looking for an affordable, high-quality education with strong career prospects, studying in Germany is a smart choice, and EuroRank is with you all the way.',
         'faq_category' => FaqCategory::Germany,
         'faq_intro' => 'Our FAQ section answers the most common questions students ask about studying in Germany, so you can plan your journey with ease.',
     ],
@@ -64,11 +64,11 @@ return [
             'Visa guidance for the long-stay D visa (programs over 90 days) and the short-stay C visa, plus advice on part-time work of up to 20 hours per week and post-study stay permits.',
         ],
         'images' => [
-            ['services/gallery/counselling-session.webp', 'EuroGrades counselors advising a student on universities abroad'],
+            ['services/gallery/counselling-session.webp', 'EuroRank counselors advising a student on universities abroad'],
             ['services/gallery/student-travel.webp', 'Student holding her passport and tickets at the airport'],
         ],
-        'why_title' => 'Why Choose EuroGrades for Italy',
-        'why_highlight' => 'EuroGrades',
+        'why_title' => 'Why Choose EuroRank for Italy',
+        'why_highlight' => 'EuroRank',
         'why_intro' => 'Located in the heart of Europe, Italy opens doors to travel, networking and careers across the EU. Our team helps you find the right university and program for your goals and budget.',
         'metrics' => [
             ['Admission Success Rate', 94],
@@ -86,7 +86,7 @@ return [
         'overview' => <<<'TXT'
             The International English Language Testing System (IELTS) is a globally recognized English proficiency exam for anyone who wants to study, work, or migrate abroad. It assesses four key language skills: Listening, Reading, Writing, and Speaking, and is accepted by universities, employers, immigration authorities, and professional organizations worldwide.
 
-            The test is scored on a 9-band scale, from non-user (Band 1) to expert user (Band 9). With no pass or fail, IELTS measures your ability to communicate effectively in English. At EuroGrades, our structured IELTS preparation courses help you achieve your desired band score with expert guidance and practice.
+            The test is scored on a 9-band scale, from non-user (Band 1) to expert user (Band 9). With no pass or fail, IELTS measures your ability to communicate effectively in English. At EuroRank, our structured IELTS preparation courses help you achieve your desired band score with expert guidance and practice.
             TXT,
         'offer_title' => 'Coaching for Every IELTS Module',
         'offer_highlight' => 'IELTS Module',
@@ -101,8 +101,8 @@ return [
             ['services/gallery/advisor-meeting.webp', 'IELTS trainer reviewing a student’s progress'],
             ['services/gallery/student-campus.webp', 'Student preparing for her IELTS exam'],
         ],
-        'why_title' => 'Why Choose EuroGrades for IELTS',
-        'why_highlight' => 'EuroGrades',
+        'why_title' => 'Why Choose EuroRank for IELTS',
+        'why_highlight' => 'EuroRank',
         'why_intro' => 'Expert instructors, comprehensive study material, mock tests with performance tracking, real-time feedback, doubt-clearing sessions and guidance for exam registration: everything you need to reach your target band.',
         'metrics' => [
             ['Students Reaching Their Target Band', 92],
@@ -124,7 +124,7 @@ return [
             TXT,
         'offer_title' => 'German Training From A1 to B2',
         'offer_highlight' => 'From A1 to B2',
-        'offer_intro' => 'EuroGrades offers structured courses that guide you through every level, so you can speak, read and write German with confidence.',
+        'offer_intro' => 'EuroRank offers structured courses that guide you through every level, so you can speak, read and write German with confidence.',
         'features' => [
             'A1 Level: the absolute beginner level, covering basic vocabulary and grammar, speaking and listening, reading and writing, pronunciation and cultural insights.',
             'A2 Level: understand frequently used expressions, with expanded vocabulary and grammar, conversational skills, listening comprehension and practical usage.',
@@ -135,8 +135,8 @@ return [
             ['services/gallery/advisor-world-map.webp', 'German language trainer with a student'],
             ['services/gallery/counselling-session.webp', 'Students in a live interactive language class'],
         ],
-        'why_title' => 'Why Learn German With EuroGrades',
-        'why_highlight' => 'EuroGrades',
+        'why_title' => 'Why Learn German With EuroRank',
+        'why_highlight' => 'EuroRank',
         'why_intro' => 'Affordable pricing, beginner-friendly lessons, small batch sizes, certified trainers, a structured curriculum, flexible learning modes, live interactive classes and TestDaF and DSH preparation.',
         'metrics' => [
             ['Students Passing on Their First Attempt', 94],
@@ -170,8 +170,8 @@ return [
             ['services/gallery/advisor-meeting.webp', 'Italian language trainer during a one-to-one session'],
             ['services/gallery/counselling-session.webp', 'Students practising conversation in a small batch'],
         ],
-        'why_title' => 'Why Learn Italian With EuroGrades',
-        'why_highlight' => 'EuroGrades',
+        'why_title' => 'Why Learn Italian With EuroRank',
+        'why_highlight' => 'EuroRank',
         'why_intro' => 'Affordable pricing, beginner-friendly lessons, small batch sizes, certified trainers, a structured curriculum, flexible learning modes, live interactive classes and CILS and CELI exam preparation.',
         'metrics' => [
             ['Students Passing on Their First Attempt', 93],

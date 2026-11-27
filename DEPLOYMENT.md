@@ -1,4 +1,4 @@
-# Deploying the EuroGrades API to Plesk
+# Deploying the EuroRank API to Plesk
 
 Staging: **https://eurogradeapi.ureligible.com** (website: https://eurograde.ureligible.com).
 
